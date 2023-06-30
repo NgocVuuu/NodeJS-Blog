@@ -270,7 +270,7 @@ img {
     padding: 4px 0;
     position: absolute;
     left: 0;
-    right: inherit;
+    right: 0;
 }
 
 .searchBar.open {
@@ -283,7 +283,7 @@ img {
     padding: 0;
 }
 
-.searchClose {
+#searchClose {
     position: absolute;
     top: 0;
     right: 0;
