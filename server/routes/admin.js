@@ -101,13 +101,76 @@ router.post('/register', async (req, res) => {
 
 /*
 * GET /
-* Admin - dashboard
+* Admin - Dashboard
 */
 router.get('/dashboard', authMiddleware, async (req, res) => {
 
-    res.render('admin/dashboard');
+    const locals = {
+        title: "Dashboard",
+        description: "Simple Blog created with NodeJS, Express & MongoDB"
+    }
 
+    try {
+        const data = await Post.find();
+        res.render('admin/dashboard', {
+            locals,
+            data,
+            layout: adminLayout
+        });
+    } catch (error) {
+        
+    }
 });
+
+/*
+* GET /
+* Admin - Creat new post
+*/
+router.get('/add-post', authMiddleware, async (req, res) => {
+
+    const locals = {
+        title: "Add Post",
+        description: "Simple Blog created with NodeJS, Express & MongoDB"
+    }
+
+    try {
+        const data = await Post.find();
+        res.render('admin/add-post', {
+            locals,
+            layout: adminLayout
+        });
+    } catch (error) {
+        console.log(error);
+
+    }
+});
+
+
+
+/*
+* POST /
+* Admin - Creat new post
+*/
+router.post('/add-post', authMiddleware, async (req, res) => {    
+    try {
+        try {
+            const newPost = new Post ({
+                title: req.body.title,
+                body: req.body.body
+            })
+            
+            await Post.create(newPost)            
+            res.redirect('/dashboard');
+        } catch (error) {
+        console.log(error);
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+
 
 
 module.exports = router;
